@@ -171,9 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 1811601223030492}
+  order: 0
   maxHP: 10
-  atk: 2
-  delay: 1
+  atk: 1
+  delay: 2
   skillCoolTime: 5
 --- !u!212 &212195882245603412
 SpriteRenderer:

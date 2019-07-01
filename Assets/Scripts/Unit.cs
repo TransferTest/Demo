@@ -5,7 +5,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public GameObject HPBar;
+    public int order;
+
     public int maxHP;
+    protected int HP;
     public int atk;
     public float delay;
     public float skillCoolTime;
@@ -15,15 +18,15 @@ public class Unit : MonoBehaviour
     protected enum State { AutoAttack, Skill, Move }
 	protected State state = State.AutoAttack;
 
-    protected float attackTime;
-    protected int HP;
+    protected float attackRemainTime;
     protected float skillCoolDown;
+    protected bool moveCalled = false;
 
     Vector3 dest = new Vector3(0,0,0);
 
     void Start()
     {
-        attackTime = 0;
+        attackRemainTime = 0;
         HP = maxHP;
         SetTarget(this);
         StartCoroutine(FSM());
@@ -57,8 +60,8 @@ public class Unit : MonoBehaviour
     }
     void Die()
     {
-		if (this is Enemy)
-            SceneManager.Instance.enemies.Remove((Enemy)this);
+        if (this is Enemy)
+            SceneManager.Instance.EnemyDied((Enemy)this);
         Destroy(gameObject);
     }
     public void SetTarget (Unit t)
@@ -68,7 +71,7 @@ public class Unit : MonoBehaviour
 
     protected IEnumerator Move()
     {
-        float remainTime = 1.0f;
+        float remainTime = 1f;
         Vector3 start = this.gameObject.transform.position;
         while (true)
         {
@@ -84,12 +87,35 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private IEnumerator AutoAttack()
+    protected virtual IEnumerator AutoAttack()
     {
+        attackRemainTime = delay;
         while (true)
         {
+            if (attackRemainTime > 0)
+                attackRemainTime -= Time.deltaTime;
+            if (attackRemainTime <= 0)
+            {
+                AutoTarget();
+                if (autoTarget != null)
+                {
+                    Attack(autoTarget);
+                    attackRemainTime = delay;
+                }
+            }
+            if (moveCalled == true)
+            {
+                state = State.Move;
+                yield break;
+            }
             yield return null;
         }
+    }
+
+    public void MoveToPosition(Vector3 dest)
+    {
+        moveCalled = true;
+        this.dest = dest;
     }
 
     protected void Attack (Unit target)
@@ -100,6 +126,10 @@ public class Unit : MonoBehaviour
     protected void Heal(Unit target)
     {
         target.GetDamage(-atk);
+    }
+
+    protected virtual void AutoTarget ()
+    {
     }
 
     private void UpdateHP()

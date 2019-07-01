@@ -6,10 +6,15 @@ public class SceneManager : MonoBehaviour
 {
     static SceneManager instance = null;
 
-    public GameObject Dealer;
 	public GameObject enemyPrefab;
 
-    public List<Enemy> enemies;
+    public List<Ally> allies = new List<Ally>();
+    public List<Enemy> enemies = new List<Enemy>();
+
+    public GameObject Dealer;
+    public GameObject Healer;
+    Dealer dealer;
+    Healer healer;
 
     // Start is called before the first frame update
     public static SceneManager Instance
@@ -29,8 +34,12 @@ public class SceneManager : MonoBehaviour
     {
 		for (int i = 0; i < 4; i++)
 		{
-            Instantiate(enemyPrefab, new Vector3(i * 1.44f + 2, 0), Quaternion.identity);
+            Enemy newEnemy = Instantiate(enemyPrefab, GetRightEnemyPosition(i), Quaternion.identity).GetComponent<Enemy>();
+            newEnemy.order = i;
+            enemies.Add(newEnemy);
 		}
+        dealer = Dealer.GetComponent<Dealer>();
+        healer = Healer.GetComponent<Healer>();
     }
 
     // Update is called once per frame
@@ -39,8 +48,32 @@ public class SceneManager : MonoBehaviour
         
     }
 
+    Vector3 GetRightEnemyPosition(int order)
+    {
+        return new Vector3(order * 1.44f + 2, 0);
+    }
+
+    public void EnemyDied(Enemy enemy)
+    {
+        SceneManager.Instance.enemies.Remove(enemy);
+        RearrangeEnemies();
+    }
+
+    public void RearrangeEnemies()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Enemy enemy = enemies[i];
+            if (enemy.order != i)
+            {
+                enemy.MoveToPosition(GetRightEnemyPosition(i));
+                enemy.order = i;
+            }
+        }
+    }
+
     public void SkillButton ()
     {
-        Dealer.GetComponent<Dealer>().CallSkill();
+        healer.CallSkill();
     }
 }

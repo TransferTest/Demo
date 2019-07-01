@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dealer : Ally
+public class Healer : Ally
 {
     protected override IEnumerator AutoAttack ()
     {
@@ -36,6 +36,20 @@ public class Dealer : Ally
             yield return null;
             if (state != State.AutoAttack)
                 yield break;
+        }
+    }
+
+    private IEnumerator Skill ()
+    {
+        while (true)
+        {
+            Ally healTarget = this;
+            if (SceneManager.Instance.allies.Count > 0)
+                healTarget = SceneManager.Instance.allies[0];
+            Heal(healTarget);
+            skillCalled = false;
+            state = State.AutoAttack;
+            yield break;
         }
     }
 
