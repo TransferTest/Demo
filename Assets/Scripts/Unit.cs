@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public GameObject HP_bar;
-    public int max_HP;
+    public GameObject HPBar;
+    public int maxHP;
     public int atk;
     public float delay;
     public float skillCoolTime;
 
-    protected Unit target;
+    protected Unit autoTarget;
+	protected Unit designatedTarget;
     protected enum State { AutoAttack, Skill, Move }
-    protected State state = State.Move;
+	protected State state = State.AutoAttack;
 
     protected float attackTime;
     protected int HP;
@@ -20,16 +21,14 @@ public class Unit : MonoBehaviour
 
     Vector3 dest = new Vector3(0,0,0);
 
-    // Start is called before the first frame update
     void Start()
     {
         attackTime = 0;
-        HP = max_HP;
-        //SetTarget(this);
+        HP = maxHP;
+        SetTarget(this);
         StartCoroutine(FSM());
     }
 
-    // Update is called once per frame
     void Update()
     {
     }
@@ -50,21 +49,21 @@ public class Unit : MonoBehaviour
             HP = 0;
             Die();
         }
-        if (HP > max_HP)
+        if (HP > maxHP)
         {
-            HP = max_HP;
+            HP = maxHP;
         }
         UpdateHP();
     }
     void Die()
     {
-        if (this is Enemy)
+		if (this is Enemy)
             SceneManager.Instance.enemies.Remove((Enemy)this);
         Destroy(gameObject);
     }
     public void SetTarget (Unit t)
     {
-        target = t;
+        autoTarget = t;
     }
 
     protected IEnumerator Move()
@@ -105,6 +104,6 @@ public class Unit : MonoBehaviour
 
     private void UpdateHP()
     {
-        HP_bar.transform.localScale = new Vector3(((float)HP / (float)max_HP), 1, 1);
+        HPBar.transform.localScale = new Vector3(((float)HP / (float)maxHP), 1, 1);
     }
 }

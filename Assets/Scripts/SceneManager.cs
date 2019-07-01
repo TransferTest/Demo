@@ -7,6 +7,7 @@ public class SceneManager : MonoBehaviour
     static SceneManager instance = null;
 
     public GameObject Dealer;
+	public GameObject enemyPrefab;
 
     public List<Enemy> enemies;
 
@@ -26,7 +27,10 @@ public class SceneManager : MonoBehaviour
     }
     void Start()
     {
-
+		for (int i = 0; i < 4; i++)
+		{
+            Instantiate(enemyPrefab, new Vector3(i * 1.44f + 2, 0), Quaternion.identity);
+		}
     }
 
     // Update is called once per frame
@@ -35,7 +39,7 @@ public class SceneManager : MonoBehaviour
         
     }
 
-    public void skillButton ()
+    public void SkillButton ()
     {
         Dealer.GetComponent<Dealer>().CallSkill();
     }

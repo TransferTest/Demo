@@ -18,9 +18,9 @@ public class Dealer : Ally
             if (attackTime <= 0)
             {
                 AutoTarget();
-                if (target != null)
+                if (autoTarget != null)
                 {
-                    Attack(target);
+                    Attack(autoTarget);
                     attackTime = delay;
                 }
             }
@@ -39,9 +39,9 @@ public class Dealer : Ally
     {
         while (true)
         {
-            if (skillCall && target != null)
+            if (skillCall && autoTarget != null)
             {
-                Heal(target);
+                Heal(autoTarget);
                 attackTime = delay;
                 skillCall = false;
                 state = State.AutoAttack;
