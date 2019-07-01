@@ -14,13 +14,19 @@ public class Healer : Ally
             if (skillCoolDown > 0)
                 skillCoolDown -= Time.deltaTime;
 
+            if (attackRemainTime < 0.3f)
+            {
+                UnitImage.GetComponent<SpriteRenderer>().sprite = AttackingSprite;
+            }
+
             if (attackRemainTime <= 0)
             {
                 AutoTarget();
-                if (autoTarget != null)
+                if (Target != null)
                 {
-                    Attack(autoTarget);
+                    Attack(Target);
                     attackRemainTime = delay;
+                    UnitImage.GetComponent<SpriteRenderer>().sprite = DefaultSprite;
                 }
             }
             if (moveCalled == true)
@@ -56,6 +62,6 @@ public class Healer : Ally
     protected override void AutoTarget ()
     {
         if (SceneManager.Instance.enemies.Count > 0)
-            SetTarget(SceneManager.Instance.enemies[0]);
+            SetAutoTarget(SceneManager.Instance.enemies[0]);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public GameObject HPBar;
+    public GameObject UnitImage;
     public int order;
 
     public int maxHP;
@@ -28,7 +29,7 @@ public class Unit : MonoBehaviour
     {
         attackRemainTime = 0;
         HP = maxHP;
-        SetTarget(this);
+        SetAutoTarget(this);
         StartCoroutine(FSM());
     }
 
@@ -64,7 +65,7 @@ public class Unit : MonoBehaviour
             SceneManager.Instance.EnemyDied((Enemy)this);
         Destroy(gameObject);
     }
-    public void SetTarget (Unit t)
+    public void SetAutoTarget (Unit t)
     {
         autoTarget = t;
     }
