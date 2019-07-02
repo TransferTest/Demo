@@ -22,9 +22,9 @@ public class SceneManager : MonoBehaviour
     public GameObject Supporter;
     Dealer dealer;
     Healer healer;
-    Ally dealTank; //각 직업별 클래스 만든 후 Ally type을 수정 필요
-    Ally tanker;
-    Ally supporter;
+    DealTank dealTank; //각 직업별 클래스 만든 후 Ally type을 수정 필요
+    Tanker tanker;
+    Supporter supporter;
 
     // Start is called before the first frame update
     public static SceneManager Instance
@@ -50,6 +50,9 @@ public class SceneManager : MonoBehaviour
 		}
         dealer = Dealer.GetComponent<Dealer>();
         healer = Healer.GetComponent<Healer>();
+        dealTank = Healer.GetComponent<DealTank>();
+        tanker = Healer.GetComponent<Tanker>();
+        supporter = Healer.GetComponent<Supporter>();
     }
 
     // Update is called once per frame

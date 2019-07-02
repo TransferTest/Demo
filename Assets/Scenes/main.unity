@@ -199,7 +199,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Dealer
+          m_StringArgument: Supporter
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -536,7 +536,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Dealer
+          m_StringArgument: Tanker
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -587,6 +587,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144369451}
+  - component: {fileID: 144369450}
   m_Layer: 0
   m_Name: Supporter
   m_TagString: Untagged
@@ -594,6 +595,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &144369450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144369449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd7f9b0eb1060247a1428a47a1edc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 972620970}
+  UnitImage: {fileID: 504835702}
+  order: 4
+  maxHP: 100
+  atk: 1
+  delay: 2
+  skillCoolTime: 4
+  DefaultSprite: {fileID: 0}
+  AttackingSprite: {fileID: 0}
 --- !u!4 &144369451
 Transform:
   m_ObjectHideFlags: 0
@@ -729,7 +751,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Dealer
+          m_StringArgument: DealTank
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -886,9 +908,9 @@ MonoBehaviour:
   enemies: []
   Dealer: {fileID: 1029712386}
   Healer: {fileID: 428369206}
-  DealTank: {fileID: 0}
-  Tanker: {fileID: 0}
-  Supporter: {fileID: 0}
+  DealTank: {fileID: 544736842}
+  Tanker: {fileID: 1928577786}
+  Supporter: {fileID: 144369449}
 --- !u!4 &279886720
 Transform:
   m_ObjectHideFlags: 0
@@ -901,7 +923,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &362794030
 GameObject:
@@ -1317,6 +1339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 544736843}
+  - component: {fileID: 544736844}
   m_Layer: 0
   m_Name: DealTank
   m_TagString: Untagged
@@ -1341,6 +1364,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &544736844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544736842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017eef90c2c7005449e8dcda463abcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 527929092}
+  UnitImage: {fileID: 794315348}
+  order: 2
+  maxHP: 100
+  atk: 1
+  delay: 3
+  skillCoolTime: 3
+  DefaultSprite: {fileID: 0}
+  AttackingSprite: {fileID: 0}
 --- !u!1 &649467629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,7 +2032,7 @@ Transform:
   - {fileID: 832491468}
   - {fileID: 362794031}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1029712389
 MonoBehaviour:
@@ -2903,6 +2947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1928577788}
+  - component: {fileID: 1928577787}
   m_Layer: 0
   m_Name: Tanker
   m_TagString: Untagged
@@ -2910,6 +2955,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1928577787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928577786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d6340738c965e49b35c9de5c0271c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 161661797}
+  UnitImage: {fileID: 1866451818}
+  order: 3
+  maxHP: 500
+  atk: 1
+  delay: 5
+  skillCoolTime: 7
+  DefaultSprite: {fileID: 0}
+  AttackingSprite: {fileID: 0}
 --- !u!4 &1928577788
 Transform:
   m_ObjectHideFlags: 0

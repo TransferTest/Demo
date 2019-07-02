@@ -184,7 +184,7 @@ public class Unit : MonoBehaviour
 
     protected virtual void AutoTarget ()
     {
-        Debug.Log("Should override AutoTarget ()");
+        //Debug.Log("Should override AutoTarget ()");
     }
 
     private void UpdateHP()

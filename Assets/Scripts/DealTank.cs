@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tanker : Ally
+public class DealTank : Ally
 {
 
 }
