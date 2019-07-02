@@ -15,11 +15,6 @@ public class DealTank : Ally
             if (skillCoolDown > 0)
                 skillCoolDown -= Time.deltaTime;
 
-            if (attackRemainTime < 0.3f)
-            {
-                UnitImage.GetComponent<SpriteRenderer>().sprite = AttackingSprite;
-            }
-
             if (attackRemainTime <= 0)
             {
                 AutoTarget();
@@ -27,7 +22,6 @@ public class DealTank : Ally
                 {
                     Attack(Target);
                     attackRemainTime = delay;
-                    UnitImage.GetComponent<SpriteRenderer>().sprite = DefaultSprite;
                 }
             }
             if (moveCalled == true)
