@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Supporter : Ally
 {
-    public int skillDamage;
+    public float buffCoeff;
+    public float buffTime;
     protected override IEnumerator AutoAttack()
     {
-        attackRemainTime = 0.3f * delay;
+        attackRemainTime = delay;
         while (true)
         {
             if (attackRemainTime > 0)
@@ -50,22 +51,18 @@ public class Supporter : Ally
     {
         while (true)
         {
-            Enemy dealerTarget = null;
-            if (this.Target is Enemy)
-                dealerTarget = (Enemy)this.Target;
-            if ((designatedSkillTarget != null) && (designatedSkillTarget is Enemy))
-                dealerTarget = (Enemy)designatedSkillTarget;
-            if (dealerTarget == null)
+            Ally suppTarget = this;
+            if (SceneManager.Instance.allies.Count > 0)
             {
-                AutoTarget();
-                yield return null;
-                continue;
+                suppTarget = SceneManager.Instance.allies[0];
+            }
+            if (designatedSkillTarget != null && designatedSkillTarget is Ally)
+            {
+                suppTarget = (Ally)designatedSkillTarget;
             }
 
-            int atk_temp = atk;
-            atk = skillDamage;
-            Attack(dealerTarget);
-            atk = atk_temp;
+            IncOutDamage b = new IncOutDamage(buffCoeff, buffTime, suppTarget, this);
+            suppTarget.GetBuff(b);
             skillCalled = false;
             state = State.AutoAttack;
             yield break;

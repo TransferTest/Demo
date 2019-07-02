@@ -616,6 +616,8 @@ MonoBehaviour:
   skillCoolTime: 4
   DefaultSprite: {fileID: 21300000, guid: a00e9d9eb9452e14b858ee3358c9ca35, type: 3}
   AttackingSprite: {fileID: 21300000, guid: 96eec53697dd9644fb1f5b43c1f308f7, type: 3}
+  buffCoeff: 10
+  buffTime: 3
 --- !u!4 &144369451
 Transform:
   m_ObjectHideFlags: 0
@@ -1385,6 +1387,7 @@ MonoBehaviour:
   skillCoolTime: 3
   DefaultSprite: {fileID: 21300000, guid: 75321c9b3c52b4d4da220f8e72aaa4a6, type: 3}
   AttackingSprite: {fileID: 21300000, guid: d2c75fda1771f0549b29bd06dbefac7a, type: 3}
+  skillDamage: 3
 --- !u!1 &649467629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,6 +3059,8 @@ MonoBehaviour:
   skillCoolTime: 7
   DefaultSprite: {fileID: 21300000, guid: 7401db475abfc6441b23d56afcc711fc, type: 3}
   AttackingSprite: {fileID: 21300000, guid: 561c95ca26e11944590847fe27a1e4da, type: 3}
+  shieldAmount: 10
+  shieldTime: 5
 --- !u!4 &1928577788
 Transform:
   m_ObjectHideFlags: 0
