@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AllyClass { Dealer, Healer, Dealtank, Tanker, Supporter }
+public enum AllyClass { Dealer, Healer, DealTank, Tanker, Supporter }
 
 
 public class SceneManager : MonoBehaviour
@@ -60,13 +60,13 @@ public class SceneManager : MonoBehaviour
         allies.Add(tanker);
         allies.Add(supporter);
 
-        //MoveAll();
+        //SwapAllyIndex(0, 2);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     Vector3 GetRightEnemyPosition(int order)
@@ -108,7 +108,7 @@ public class SceneManager : MonoBehaviour
                 return dealer;
             case AllyClass.Healer:
                 return healer;
-            case AllyClass.Dealtank:
+            case AllyClass.DealTank:
                 return dealTank;
             case AllyClass.Tanker:
                 return tanker;
@@ -135,5 +135,15 @@ public class SceneManager : MonoBehaviour
         {
             allies[i].MoveToPosition(positions[i]);
         }
+    }
+
+    public void SwapAllyIndex (int i1, int i2)
+    {
+        Ally temp = allies[i1];
+        allies[i1] = allies[i2];
+        allies[i2] = temp;
+
+        allies[i1].MoveToPosition(positions[i1]);
+        allies[i2].MoveToPosition(positions[i2]);
     }
 }
