@@ -50,9 +50,9 @@ public class SceneManager : MonoBehaviour
 		}
         dealer = Dealer.GetComponent<Dealer>();
         healer = Healer.GetComponent<Healer>();
-        dealTank = Healer.GetComponent<DealTank>();
-        tanker = Healer.GetComponent<Tanker>();
-        supporter = Healer.GetComponent<Supporter>();
+        dealTank = DealTank.GetComponent<DealTank>();
+        tanker = Tanker.GetComponent<Tanker>();
+        supporter = Supporter.GetComponent<Supporter>();
     }
 
     // Update is called once per frame
@@ -63,16 +63,16 @@ public class SceneManager : MonoBehaviour
 
     Vector3 GetRightEnemyPosition(int order)
     {
-        return new Vector3(order * 1.44f + 2, 0);
+        return new Vector3(order * 1.44f + 2, -2.32f);
     }
 
     public void EnemyDied(Enemy enemy)
     {
         SceneManager.Instance.enemies.Remove(enemy);
-        RearrangeEnemies();
+        //RearrangeEnemies();
     }
 
-    public void RearrangeEnemies()
+    /*public void RearrangeEnemies()
     {
         for (int i = 0; i < enemies.Count; i++)
         {
@@ -83,7 +83,7 @@ public class SceneManager : MonoBehaviour
                 enemy.order = i;
             }
         }
-    }
+    }*/
 
     public void SkillButton (string className)
     {
