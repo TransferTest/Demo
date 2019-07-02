@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Ally : Unit
 {
-    public Sprite DefaultSprite;
-    public Sprite AttackingSprite;
-
     protected bool skillCalled = false;
 
     public void CallSkill ()

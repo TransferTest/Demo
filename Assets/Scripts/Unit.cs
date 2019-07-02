@@ -7,6 +7,9 @@ public class Unit : MonoBehaviour
     public GameObject HPBar;
     public GameObject UnitImage;
 
+    public Sprite DefaultSprite;
+    public Sprite AttackingSprite;
+
     public int order;
 
     public int maxHP;
@@ -40,6 +43,14 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        if(state == State.AutoAttack && attackRemainTime < 0.5 * delay)
+        {
+            UnitImage.GetComponent<SpriteRenderer>().sprite = AttackingSprite;
+        }
+        else
+        {
+            UnitImage.GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+        }
     }
 
     protected IEnumerator FSM()
