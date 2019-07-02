@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tanker : Ally
 {
+    public int shieldAmount;
+    public int shieldTime;
     protected override IEnumerator AutoAttack()
     {
         attackRemainTime = delay;
@@ -51,10 +53,17 @@ public class Tanker : Ally
         {
             Ally tankTarget = this;
             if (SceneManager.Instance.allies.Count > 0)
+            {
+                Debug.Log("ally");
                 tankTarget = SceneManager.Instance.allies[0];
+            }
             if (designatedSkillTarget != null && designatedSkillTarget is Ally)
+            {
+                Debug.Log("designated");
                 tankTarget = (Ally)designatedSkillTarget;
-            Shield shld = new Shield(100, 20, tankTarget, this);
+            }
+                
+            Shield shld = new Shield(shieldAmount, shieldTime, tankTarget, this);
             tankTarget.GetBuff(shld);
             skillCalled = false;
             state = State.AutoAttack;

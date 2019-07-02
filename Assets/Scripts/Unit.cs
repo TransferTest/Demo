@@ -70,25 +70,29 @@ public class Unit : MonoBehaviour
     {
         //Decrement shield first
         int damageTaken = damage;
-        int i = 0;
-        while(i < buffs.Count)
+        if (damage > 0)
         {
-            Buff b = buffs[i];
-            if (b is Shield)
+            int i = 0;
+            while (i < buffs.Count)
             {
-                if (((Shield)b).GetShield() > damageTaken)
+                Buff b = buffs[i];
+                if (b is Shield)
                 {
-                    ((Shield)b).DecrementShield(damageTaken);
-                    break;
+                    if (((Shield)b).GetShield() > damageTaken)
+                    {
+                        ((Shield)b).DecrementShield(damageTaken);
+                        damageTaken = 0;
+                        break;
+                    }
+                    else
+                    {
+                        damageTaken -= ((Shield)b).GetShield();
+                        buffs.Remove(b);
+                        continue;
+                    }
                 }
-                else
-                {
-                    damageTaken -= ((Shield)b).GetShield();
-                    buffs.Remove(b);
-                    continue;
-                }
+                i += 1;
             }
-            i += 1;
         }
         //Decrement HP
         HP -= damageTaken;
