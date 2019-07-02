@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum AllyClass { Dealer, Healer, Dealtank, Tanker, Supporter }
+
 
 public class SceneManager : MonoBehaviour
 {
@@ -13,8 +17,14 @@ public class SceneManager : MonoBehaviour
 
     public GameObject Dealer;
     public GameObject Healer;
+    public GameObject DealTank;
+    public GameObject Tanker;
+    public GameObject Supporter;
     Dealer dealer;
     Healer healer;
+    Ally dealTank; //각 직업별 클래스 만든 후 Ally type을 수정 필요
+    Ally tanker;
+    Ally supporter;
 
     // Start is called before the first frame update
     public static SceneManager Instance
@@ -72,8 +82,37 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    public void SkillButton ()
+    public void SkillButton (string className)
     {
-        healer.CallSkill();
+        Ally ally = GetAlly(className);
+        if (ally != null)
+            ally.CallSkill();
+    }
+
+    public Ally GetAlly(AllyClass class_)
+    {
+        switch (class_)
+        {
+            case AllyClass.Dealer:
+                return dealer;
+            case AllyClass.Healer:
+                return healer;
+            case AllyClass.Dealtank:
+                return dealTank;
+            case AllyClass.Tanker:
+                return tanker;
+            case AllyClass.Supporter:
+                return supporter;
+            default:
+                return null;
+        }
+    }
+    public Ally GetAlly(string className)
+    {
+        return GetAlly(StringToAllyClass(className));
+    }
+    public static AllyClass StringToAllyClass(string str)
+    {
+        return (AllyClass)Enum.Parse(typeof(AllyClass), str);
     }
 }
