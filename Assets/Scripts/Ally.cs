@@ -19,12 +19,13 @@ public class Ally : Unit
     {
         base.Update();
         infoText.text = "체력 " + HP + " / " + maxHP +
-            "\n공격력 " + atk + 
+            "\n공격력 " + atk +
             "\n보호막 " + GetTotalShield() +
-            "\n딜레이 " + delay + 
-            "\n공격남은시간" + Util.Truncate(attackRemainTime) + 
-            "\n스킬 쿨타임 " + skillCoolTime + 
-            "\n스킬남은시간" + Util.Truncate(skillCoolDown);
+            "\n딜레이 " + delay +
+            "\n공격남은시간" + Util.Truncate(attackRemainTime) +
+            "\n스킬 쿨타임 " + skillCoolTime +
+            "\n스킬남은시간" + Util.Truncate(skillCoolDown) +
+            "\nstate " + state.ToString();
     }
 
     public void CallSkill ()
