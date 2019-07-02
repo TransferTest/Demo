@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tanker : Ally
 {
     public int shieldAmount;
-    public int shieldTime;
+    public float shieldTime;
     protected override IEnumerator AutoAttack()
     {
         attackRemainTime = delay;
