@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
 {
     public GameObject HPBar;
     public GameObject UnitImage;
+
     public int order;
 
     public int maxHP;
@@ -20,6 +21,8 @@ public class Unit : MonoBehaviour
     protected enum State { AutoAttack, Skill, Move }
 	protected State state = State.AutoAttack;
 
+    protected List<Buff> buffs;
+
     protected float attackRemainTime;
     protected float skillCoolDown;
     protected bool moveCalled = false;
@@ -30,6 +33,7 @@ public class Unit : MonoBehaviour
     {
         attackRemainTime = 0;
         HP = maxHP;
+        buffs = new List<Buff>();
         SetAutoTarget(this);
         StartCoroutine(FSM());
     }
@@ -46,9 +50,48 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void UpdateBuffRemainTime ()
+    {
+        int i = 0;
+        while (i < buffs.Count)
+        {
+            Buff b = buffs[i];
+            b.updateTime();
+            if (b.GetRemainTime() < 0)
+            {
+                buffs.Remove(b);
+                continue;
+            }
+            i += 1;
+        }
+    }
+
     public void GetDamage(int damage)
     {
-        HP -= damage;
+        //Decrement shield first
+        int damageTaken = damage;
+        int i = 0;
+        while(i < buffs.Count)
+        {
+            Buff b = buffs[i];
+            if (b is Shield)
+            {
+                if (((Shield)b).GetShield() > damageTaken)
+                {
+                    ((Shield)b).DecrementShield(damageTaken);
+                    break;
+                }
+                else
+                {
+                    damageTaken -= ((Shield)b).GetShield();
+                    buffs.Remove(b);
+                    continue;
+                }
+            }
+            i += 1;
+        }
+        //Decrement HP
+        HP -= damageTaken;
         if (HP < 0)
         {
             HP = 0;
@@ -58,6 +101,7 @@ public class Unit : MonoBehaviour
         {
             HP = maxHP;
         }
+        //Update HP bar
         UpdateHP();
     }
     void Die()
@@ -130,7 +174,7 @@ public class Unit : MonoBehaviour
 
     protected void Attack (Unit target)
     {
-        target.GetDamage (atk);
+        target.GetDamage (CalculateAttackDamage(atk));
     }
 
     protected void Heal(Unit target)
@@ -140,10 +184,25 @@ public class Unit : MonoBehaviour
 
     protected virtual void AutoTarget ()
     {
+        Debug.Log("Should override AutoTarget ()");
     }
 
     private void UpdateHP()
     {
         HPBar.transform.localScale = new Vector3(((float)HP / (float)maxHP), 1, 1);
+    }
+
+    private int CalculateAttackDamage (int atk)
+    {
+        float coeff = 1.0f;
+        for (int i = 0; i < buffs.Count; i++)
+        {
+            Buff b = buffs[i];
+            if (b is IncOutDamage)
+            {
+                coeff = coeff * ((IncOutDamage)b).GetCoeff();
+            }
+        }
+        return (int)(coeff * (float)atk);
     }
 }

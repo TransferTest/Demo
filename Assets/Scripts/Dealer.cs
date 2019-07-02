@@ -48,18 +48,20 @@ public class Dealer : Ally
 
     private IEnumerator Skill()
     {
-        Debug.Log("Dealer skill called");
         while (true)
         {
-            Unit dealerTarget = this.Target;
+            Enemy dealerTarget = null;
+            if (this.Target is Enemy)
+                dealerTarget = (Enemy)this.Target;
             if ((designatedSkillTarget != null) && (designatedSkillTarget is Enemy))
-                dealerTarget = designatedSkillTarget;
+                dealerTarget = (Enemy)designatedSkillTarget;
             if (dealerTarget == null)
             {
-                //wait if target is null
+                AutoTarget();
                 yield return null;
                 continue;
             }
+
             int atk_temp = atk;
             atk = skillDamage;
             Attack(dealerTarget);

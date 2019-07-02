@@ -52,6 +52,8 @@ public class Healer : Ally
             Ally healTarget = this;
             if (SceneManager.Instance.allies.Count > 0)
                 healTarget = SceneManager.Instance.allies[0];
+            if (designatedSkillTarget != null && designatedSkillTarget is Ally)
+                healTarget = (Ally)designatedSkillTarget;
             Heal(healTarget);
             skillCalled = false;
             state = State.AutoAttack;
