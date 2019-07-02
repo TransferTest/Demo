@@ -145,17 +145,17 @@ public class Unit : MonoBehaviour
             SceneManager.Instance.EnemyDied((Enemy)this);
         Destroy(gameObject);
     }
-    public void SetAutoTarget (Unit t)
+    public void SetAutoTarget (Unit unit)
     {
-        autoTarget = t;
+        autoTarget = unit;
     }
-    public void SetDesignatedTarget (Unit t)
+    public void SetDesignatedTarget (Unit unit)
     {
-        designatedTarget = t;
+        designatedTarget = unit;
     }
-    public void SetDesignatedSkillTarget(Unit t)
+    public void SetDesignatedSkillTarget(Unit unit)
     {
-        designatedSkillTarget = t;
+        designatedSkillTarget = unit;
     }
 
     protected IEnumerator Move()
@@ -226,7 +226,14 @@ public class Unit : MonoBehaviour
     {
         get
         {
-            return autoTarget;
+            if (designatedTarget != null)
+            {
+                return designatedTarget;
+            }
+            else
+            {
+                return autoTarget;
+            }
         }
     }
 

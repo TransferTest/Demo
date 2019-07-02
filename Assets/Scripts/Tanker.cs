@@ -6,40 +6,6 @@ public class Tanker : Ally
 {
     public int shieldAmount;
     public float shieldTime;
-    protected override IEnumerator AutoAttack()
-    {
-        attackRemainTime = delay;
-        while (true)
-        {
-            if (attackRemainTime > 0)
-                attackRemainTime -= Time.deltaTime;
-            if (skillCoolDown > 0)
-                skillCoolDown -= Time.deltaTime;
-
-            if (attackRemainTime <= 0)
-            {
-                AutoTarget();
-                if (Target != null)
-                {
-                    Attack(Target);
-                    attackRemainTime = delay;
-                }
-            }
-            if (moveCalled == true)
-            {
-                state = State.Move;
-                yield break;
-            }
-            if (skillCalled && skillCoolDown <= 0)
-            {
-                skillCoolDown = skillCoolTime;
-                state = State.Skill;
-            }
-            yield return null;
-            if (state != State.AutoAttack)
-                yield break;
-        }
-    }
 
     private IEnumerator Skill()
     {

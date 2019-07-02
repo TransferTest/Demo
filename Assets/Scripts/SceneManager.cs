@@ -23,9 +23,11 @@ public class SceneManager : MonoBehaviour
     public GameObject Supporter;
     Dealer dealer;
     Healer healer;
-    DealTank dealTank; //각 직업별 클래스 만든 후 Ally type을 수정 필요
+    DealTank dealTank;
     Tanker tanker;
     Supporter supporter;
+
+    Unit firstClicked;
 
     // Start is called before the first frame update
     public static SceneManager Instance
@@ -98,6 +100,29 @@ public class SceneManager : MonoBehaviour
         Ally ally = GetAlly(className);
         if (ally != null)
             ally.CallSkill();
+    }
+
+    public void OnClickUnit(Unit unit)
+    {
+        if(firstClicked == null)
+        {
+            if(unit is Ally)
+            {
+                firstClicked = unit;
+            }
+        }
+        else
+        {
+            if(unit is Ally)
+            {
+                SwapAllyIndex(firstClicked.order, unit.order);
+            }
+            else
+            {
+                firstClicked.SetDesignatedTarget(unit);
+            }
+            firstClicked = null;
+        }
     }
 
     public Ally GetAlly(AllyClass class_)

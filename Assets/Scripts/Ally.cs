@@ -27,6 +27,41 @@ public class Ally : Unit
             "\n스킬남은시간" + Util.Truncate(skillCoolDown) +
             "\nstate " + state.ToString();
     }
+    protected override IEnumerator AutoAttack()
+    {
+        attackRemainTime = delay;
+        while (true)
+        {
+            if (attackRemainTime > 0)
+                attackRemainTime -= Time.deltaTime;
+            if (skillCoolDown > 0)
+                skillCoolDown -= Time.deltaTime;
+
+            if (attackRemainTime <= 0)
+            {
+                AutoTarget();
+                if (Target != null)
+                {
+                    Attack(Target);
+                    attackRemainTime = delay;
+                }
+            }
+            if (moveCalled == true)
+            {
+                state = State.Move;
+                moveCalled = false;
+                yield break;
+            }
+            if (skillCalled && skillCoolDown <= 0)
+            {
+                skillCoolDown = skillCoolTime;
+                state = State.Skill;
+            }
+            yield return null;
+            if (state != State.AutoAttack)
+                yield break;
+        }
+    }
 
     public void CallSkill ()
     {
