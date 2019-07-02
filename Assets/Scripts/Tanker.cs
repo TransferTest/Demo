@@ -54,12 +54,10 @@ public class Tanker : Ally
             Ally tankTarget = this;
             if (SceneManager.Instance.allies.Count > 0)
             {
-                Debug.Log("ally");
                 tankTarget = SceneManager.Instance.allies[0];
             }
             if (designatedSkillTarget != null && designatedSkillTarget is Ally)
             {
-                Debug.Log("designated");
                 tankTarget = (Ally)designatedSkillTarget;
             }
                 
