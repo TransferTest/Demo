@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
 
     protected Unit autoTarget;
 	protected Unit designatedTarget;
+    protected Unit designatedSkillTarget;
     protected enum State { AutoAttack, Skill, Move }
 	protected State state = State.AutoAttack;
 
@@ -68,6 +69,14 @@ public class Unit : MonoBehaviour
     public void SetAutoTarget (Unit t)
     {
         autoTarget = t;
+    }
+    public void SetDesignatedTarget (Unit t)
+    {
+        designatedTarget = t;
+    }
+    public void SetDesignatedSkillTarget(Unit t)
+    {
+        designatedSkillTarget = t;
     }
 
     protected IEnumerator Move()

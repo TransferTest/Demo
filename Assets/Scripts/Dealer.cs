@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Dealer : Ally
 {
+    public int skillDamage;
     protected override IEnumerator AutoAttack ()
     {
-        attackRemainTime = delay;
+        attackRemainTime = 0.3f * delay;
         while (true)
         {
             if (attackRemainTime > 0)
@@ -42,6 +43,30 @@ public class Dealer : Ally
             yield return null;
             if (state != State.AutoAttack)
                 yield break;
+        }
+    }
+
+    private IEnumerator Skill()
+    {
+        Debug.Log("Dealer skill called");
+        while (true)
+        {
+            Unit dealerTarget = this.Target;
+            if ((designatedSkillTarget != null) && (designatedSkillTarget is Enemy))
+                dealerTarget = designatedSkillTarget;
+            if (dealerTarget == null)
+            {
+                //wait if target is null
+                yield return null;
+                continue;
+            }
+            int atk_temp = atk;
+            atk = skillDamage;
+            Attack(dealerTarget);
+            atk = atk_temp;
+            skillCalled = false;
+            state = State.AutoAttack;
+            yield break;
         }
     }
 
