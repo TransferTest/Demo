@@ -104,6 +104,12 @@ public class Unit : MonoBehaviour
         //Update HP bar
         UpdateHP();
     }
+
+    public void GetBuff (Buff b)
+    {
+        b.SetTarget(this);
+        buffs.Add(b);
+    }
     void Die()
     {
         if (this is Enemy)
