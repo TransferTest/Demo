@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
 
     Vector3 dest = new Vector3(0,0,0);
 
-    void Start()
+    public void Start()
     {
         attackRemainTime = 0;
         HP = maxHP;
@@ -41,7 +41,7 @@ public class Unit : MonoBehaviour
         StartCoroutine(FSM());
     }
 
-    void Update()
+    public void Update()
     {
         if(state == State.AutoAttack && attackRemainTime < 0.5 * delay)
         {
@@ -125,6 +125,20 @@ public class Unit : MonoBehaviour
         b.SetTarget(this);
         buffs.Add(b);
     }
+
+    protected int GetTotalShield()
+    {
+        int total = 0;
+        foreach(Buff buff in buffs)
+        {
+            if(buff is Shield)
+            {
+                total += ((Shield)buff).GetShield();
+            }
+        }
+        return total;
+    }
+
     void Die()
     {
         if (this is Enemy)
