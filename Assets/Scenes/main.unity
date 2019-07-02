@@ -943,8 +943,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1562249164427396, guid: 7d072b1a059f43c429edb5c1ef080749,
     type: 3}
-  allies:
-  - {fileID: 1029712389}
+  allies: []
+  positions:
+  - {x: 0, y: -2.32, z: 0}
+  - {x: -1.8, y: -2.32, z: 0}
+  - {x: -3.6, y: -2.32, z: 0}
+  - {x: -5.4, y: -2.32, z: 0}
+  - {x: -7.2, y: -2.32, z: 0}
   enemies: []
   Dealer: {fileID: 1029712386}
   Healer: {fileID: 428369206}

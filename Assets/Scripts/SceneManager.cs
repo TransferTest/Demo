@@ -13,6 +13,7 @@ public class SceneManager : MonoBehaviour
 	public GameObject enemyPrefab;
 
     public List<Ally> allies = new List<Ally>();
+    public Vector3[] positions = new Vector3[5];
     public List<Enemy> enemies = new List<Enemy>();
 
     public GameObject Dealer;
@@ -53,6 +54,13 @@ public class SceneManager : MonoBehaviour
         dealTank = DealTank.GetComponent<DealTank>();
         tanker = Tanker.GetComponent<Tanker>();
         supporter = Supporter.GetComponent<Supporter>();
+        allies.Add(dealer);
+        allies.Add(healer);
+        allies.Add(dealTank);
+        allies.Add(tanker);
+        allies.Add(supporter);
+
+        //MoveAll();
     }
 
     // Update is called once per frame
@@ -117,5 +125,15 @@ public class SceneManager : MonoBehaviour
     public static AllyClass StringToAllyClass(string str)
     {
         return (AllyClass)Enum.Parse(typeof(AllyClass), str);
+    }
+    // Move all allies to the right position
+    // Sync actual position with allies list 
+    public void MoveAll ()
+    {
+        Debug.Log(allies.Count);
+        for(int i = 0; i < allies.Count; i++)
+        {
+            allies[i].MoveToPosition(positions[i]);
+        }
     }
 }
