@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour
 
     public void Update()
     {
-        if(state == State.AutoAttack && attackRemainTime < 0.5 * delay)
+        if(state == State.AutoAttack && Target != null && attackRemainTime < 0.5 * delay)
         {
             UnitImage.GetComponent<SpriteRenderer>().sprite = AttackingSprite;
         }
@@ -195,6 +195,7 @@ public class Unit : MonoBehaviour
             if (moveCalled == true)
             {
                 state = State.Move;
+                moveCalled = false;
                 yield break;
             }
             yield return null;
@@ -220,6 +221,13 @@ public class Unit : MonoBehaviour
     protected virtual void AutoTarget ()
     {
         //Debug.Log("Should override AutoTarget ()");
+    }
+    protected Unit Target
+    {
+        get
+        {
+            return autoTarget;
+        }
     }
 
     private void UpdateHP()

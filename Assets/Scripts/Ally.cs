@@ -31,15 +31,4 @@ public class Ally : Unit
     {
         skillCalled = true;
     }
-
-    protected Unit Target
-    {
-        get
-        {
-            if(designatedTarget != null)
-                return designatedTarget;
-            else
-                return autoTarget;
-        }
-    }
 }
