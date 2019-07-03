@@ -82,7 +82,10 @@ public class SceneManager : MonoBehaviour
         if (unit is Enemy)
             SceneManager.Instance.enemies.Remove((Enemy)unit);
         else if (unit is Ally)
+        {
             SceneManager.Instance.allies.Remove((Ally)unit);
+            SyncPosition();
+        }
         //RearrangeEnemies();
     }
 
@@ -163,17 +166,7 @@ public class SceneManager : MonoBehaviour
     {
         return (AllyClass)Enum.Parse(typeof(AllyClass), str);
     }
-    // Move all allies to the right position
-    // Sync actual position with allies list 
-    public void MoveAll ()
-    {
-        Debug.Log(allies.Count);
-        for(int i = 0; i < allies.Count; i++)
-        {
-            allies[i].MoveToPosition(positions[i]);
-        }
-    }
-
+    // Swap allies at index I1 and I2
     public void SwapAllyIndex (int i1, int i2)
     {
         /*Ally temp = allies[i1];
@@ -182,11 +175,14 @@ public class SceneManager : MonoBehaviour
 
         allies[i1].MoveToPosition(positions[i1]);
         allies[i2].MoveToPosition(positions[i2]);*/
+        if (i1 == i2)
+            return;
         Ally temp = allies[i1];
         MoveToIndex(allies[i2], i1);
         MoveToIndex(temp, i2);
     }
-
+    // Move ally at index SRC to index DST
+    // Shift all allies between SRC and DST
     public void ShiftAllyIndex (int src, int dst)
     {
         if (src < 0 || dst < 0 || src >= allies.Count || dst >= allies.Count)
@@ -212,11 +208,34 @@ public class SceneManager : MonoBehaviour
         }
         MoveToIndex(temp, dst);
     }
-
+    // Move ally to INDEX
+    // Change both index and order
     private void MoveToIndex (Ally t, int index)
     {
         allies[index] = t;
         t.MoveToPosition(positions[index]);
         t.order = index;
+    }
+    // Find ally with its order
+    // Not used, but leave it for the case that order and index are not matched
+    private Ally AllyAtOrder (int order)
+    {
+        for (int i = 0; i < allies.Count; i++)
+        {
+            if (allies[i].order == order)
+                return allies[i];
+        }
+        return null;
+    }
+    // Move allies to match order and actual index
+    private void SyncPosition ()
+    {
+        for (int i = 0; i < allies.Count; i++)
+        {
+            if (allies[i].order == i)
+                continue;
+            allies[i].order = i;
+            allies[i].MoveToPosition(positions[i]);
+        }
     }
 }
