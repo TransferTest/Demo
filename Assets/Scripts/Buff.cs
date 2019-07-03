@@ -102,18 +102,18 @@ public class IncIncDamage : Buff
 // Act as additional HP
 public class Shield : Buff
 {
-    int shield;
+    int amount;
     public Shield(int shield, float time, Unit target, Unit caster)
     {
         Init("Shield", time, target, caster);
-        this.shield = shield;
+        this.amount = shield;
     }
-    public int GetShield()
+    public int GetAmount()
     {
-        return shield;
+        return amount;
     }
     public void DecrementShield (int damage)
     {
-        shield -= damage;
+        amount -= damage;
     }
 }

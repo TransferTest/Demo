@@ -93,7 +93,7 @@ public class Unit : MonoBehaviour
             {
                 if (b is Shield)
                 {
-                    if (((Shield)b).GetShield() > damageTaken)
+                    if (((Shield)b).GetAmount() > damageTaken)
                     {
                         ((Shield)b).DecrementShield(damageTaken);
                         damageTaken = 0;
@@ -102,7 +102,7 @@ public class Unit : MonoBehaviour
                     }
                     else
                     {
-                        damageTaken -= ((Shield)b).GetShield();
+                        damageTaken -= ((Shield)b).GetAmount();
                         buffs.Remove(b);
                         hpbar.UpdateShield(GetTotalShield());
                         continue;
@@ -131,14 +131,14 @@ public class Unit : MonoBehaviour
         buffs.Add(b);
     }
 
-    protected int GetTotalShield()
+    public int GetTotalShield()
     {
         int total = 0;
         foreach(Buff buff in buffs)
         {
             if(buff is Shield)
             {
-                total += ((Shield)buff).GetShield();
+                total += ((Shield)buff).GetAmount();
             }
         }
         return total;

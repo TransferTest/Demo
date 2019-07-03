@@ -23,6 +23,7 @@ public class Tanker : Ally
                 
             Shield shld = new Shield(shieldAmount, shieldTime, tankTarget, this);
             tankTarget.GetBuff(shld);
+            tankTarget.hpbar.UpdateShield(tankTarget.GetTotalShield());
             skillCalled = false;
             state = State.AutoAttack;
             yield break;

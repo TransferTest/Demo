@@ -171,7 +171,7 @@ MonoBehaviour:
   AttackingSprite: {fileID: 21300000, guid: 118243645888d0b4491dc8717c999e5d, type: 3}
   order: 0
   maxHP: 10
-  atk: 5
+  atk: 3
   delay: 2
   skillCoolTime: 5
 --- !u!1 &1785362637347758
