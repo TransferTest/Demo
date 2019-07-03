@@ -123,6 +123,7 @@ public class SceneManager : MonoBehaviour
             if(unit is Ally)
             {
                 SwapAllyIndex(firstClicked.order, unit.order);
+                //ShiftAllyIndex(firstClicked.order, unit.order);
             }
             else
             {
@@ -171,11 +172,47 @@ public class SceneManager : MonoBehaviour
 
     public void SwapAllyIndex (int i1, int i2)
     {
-        Ally temp = allies[i1];
+        /*Ally temp = allies[i1];
         allies[i1] = allies[i2];
         allies[i2] = temp;
 
         allies[i1].MoveToPosition(positions[i1]);
-        allies[i2].MoveToPosition(positions[i2]);
+        allies[i2].MoveToPosition(positions[i2]);*/
+        Ally temp = allies[i1];
+        MoveToIndex(allies[i2], i1);
+        MoveToIndex(temp, i2);
+    }
+
+    public void ShiftAllyIndex (int src, int dst)
+    {
+        if (src < 0 || dst < 0 || src >= allies.Count || dst >= allies.Count)
+        {
+            Debug.Log("Error at ShiftAllyIndex: out of bounds");
+        }
+        Ally temp = allies[src];
+        if (src == dst)
+            return;
+        else if (src > dst)
+        {
+            for (int i = src - 1; i >= dst; i--)
+            {
+                MoveToIndex(allies[i], i + 1);
+            }
+        }
+        else
+        {
+            for (int i = src + 1; i <= dst; i++)
+            {
+                MoveToIndex(allies[i], i - 1);
+            }
+        }
+        MoveToIndex(temp, dst);
+    }
+
+    private void MoveToIndex (Ally t, int index)
+    {
+        allies[index] = t;
+        t.MoveToPosition(positions[index]);
+        t.order = index;
     }
 }
