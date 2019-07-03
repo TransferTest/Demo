@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public GameObject HPBar;
+    public HPBar hpbar;
     public GameObject UnitImage;
 
     public Sprite DefaultSprite;
@@ -35,6 +35,8 @@ public class Unit : MonoBehaviour
     public void Start()
     {
         HP = maxHP;
+        hpbar = transform.GetComponentInChildren<HPBar>();
+        hpbar.Init(maxHP, HP);
         buffs = new List<Buff>();
         SetAutoTarget(this);
         StartCoroutine(FSM());
@@ -87,26 +89,25 @@ public class Unit : MonoBehaviour
         int damageTaken = damage;
         if (damage > 0)
         {
-            int i = 0;
-            while (i < buffs.Count)
+            foreach(Buff b in buffs)
             {
-                Buff b = buffs[i];
                 if (b is Shield)
                 {
                     if (((Shield)b).GetShield() > damageTaken)
                     {
                         ((Shield)b).DecrementShield(damageTaken);
                         damageTaken = 0;
+                        hpbar.UpdateShield(GetTotalShield());
                         break;
                     }
                     else
                     {
                         damageTaken -= ((Shield)b).GetShield();
                         buffs.Remove(b);
+                        hpbar.UpdateShield(GetTotalShield());
                         continue;
                     }
                 }
-                i += 1;
             }
         }
         //Decrement HP
@@ -121,7 +122,7 @@ public class Unit : MonoBehaviour
             HP = maxHP;
         }
         //Update HP bar
-        UpdateHP();
+        hpbar.UpdateHP(HP);
     }
 
     public void GetBuff (Buff b)
@@ -237,11 +238,6 @@ public class Unit : MonoBehaviour
                 return autoTarget;
             }
         }
-    }
-
-    private void UpdateHP()
-    {
-        HPBar.transform.localScale = new Vector3(((float)HP / (float)maxHP), 1, 1);
     }
 
     private int CalculateAttackDamage (int atk)
