@@ -110,6 +110,13 @@ public class SceneManager : MonoBehaviour
             {
                 firstClicked = unit;
             }
+            else
+            {
+                for (int i = 0; i < allies.Count; i++)
+                {
+                    allies[i].SetDesignatedTarget(unit);
+                }
+            }
         }
         else
         {
