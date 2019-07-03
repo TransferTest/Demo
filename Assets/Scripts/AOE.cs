@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AOE
+public class AOE : MonoBehaviour
 {
+    protected Sprite AOEDefault;
+    protected Sprite AOEActivated;
+
     protected float timeRemain;
     protected int radius;
     protected int center;
+    protected string id;
 
     public AOE ()
     {
@@ -14,18 +18,25 @@ public class AOE
         radius = 0;
     }
 
-    public AOE (float timeRemain, int radius, int center)
+    public AOE (string id, float timeRemain, int radius, int center)
     {
         this.timeRemain = timeRemain;
         this.radius = radius;
         this.center = center;
+        this.id = id;
     }
 
-    protected void Init(float timeRemain, int radius, int center)
+    protected void Init(string id, float timeRemain, int radius, int center)
     {
         this.timeRemain = timeRemain;
         this.radius = radius;
         this.center = center;
+        this.id = id;
+
+        AOEDefault = Resources.Load<Sprite>("Sprites/Effects/" + id);
+        AOEActivated = Resources.Load<Sprite>("Sprites/Effects/" + id + "Activated");
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = AOEDefault;
     }
 
     // Update timeRemain and returns true if AOE activated
@@ -41,6 +52,7 @@ public class AOE
         if (timeRemain <= 0)
         {
             Activate();
+            gameObject.GetComponent<SpriteRenderer>().sprite = AOEActivated;
             return true;
         }
         return false;
@@ -49,31 +61,5 @@ public class AOE
     protected virtual void Activate ()
     {
         // Call it when timeRemain goes under 0
-    }
-}
-
-public class AOEDamage : AOE
-{
-    int damage;
-    public AOEDamage (float timeRemain, int radius, int center, int damage)
-    {
-        Init(timeRemain, radius, center);
-        this.damage = damage;
-    }
-    protected override void Activate ()
-    {
-        List<Ally> targets = new List<Ally>();
-        for (int i = center - radius; i <= center + radius; i++)
-        {
-            Ally t = SceneManager.Instance.AllyAtOrder(i);
-            if (t != null)
-            {
-                targets.Add(t);
-            }
-        }
-        foreach (Ally t in targets)
-        {
-            t.GetDamage(damage);
-        }
     }
 }

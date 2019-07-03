@@ -11,6 +11,7 @@ public class SceneManager : MonoBehaviour
     static SceneManager instance = null;
 
 	public GameObject enemyPrefab;
+    public GameObject AOEPrefab;
 
     public List<Ally> allies = new List<Ally>();
     public Vector3[] positions = new Vector3[5];
@@ -46,13 +47,7 @@ public class SceneManager : MonoBehaviour
     }
     void Start()
     {
-		for (int i = 0; i < 4; i++)
-		{
-            Enemy newEnemy = Instantiate(enemyPrefab, GetRightEnemyPosition(i), Quaternion.identity).GetComponent<Enemy>();
-            newEnemy.Init(Enemy.EnemyType.skeleton);
-            newEnemy.order = i;
-            enemies.Add(newEnemy);
-		}
+        SpawnEnemy(4);
         dealer = Dealer.GetComponent<Dealer>();
         healer = Healer.GetComponent<Healer>();
         dealTank = DealTank.GetComponent<DealTank>();
@@ -63,6 +58,8 @@ public class SceneManager : MonoBehaviour
         allies.Add(dealTank);
         allies.Add(tanker);
         allies.Add(supporter);
+
+        //SpawnAOEDamage(2, 1, 2, 10000);
     }
 
     // Update is called once per frame
@@ -78,9 +75,37 @@ public class SceneManager : MonoBehaviour
             if (a.CheckTime())
             {
                 aoe.Remove(a);
+                //Destroy(a.gameObject);
+                StartCoroutine(DestroyAOEAfterEffect(a, 1.0f));
                 continue;
             }
             i++;
+        }
+    }
+
+    protected IEnumerator DestroyAOEAfterEffect(AOE a, float time)
+    {
+        float remainTime = time;
+        while (true)
+        {
+            remainTime -= Time.deltaTime;
+            if (remainTime <= 0)
+            {
+                Destroy(a.gameObject);
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private void SpawnEnemy (int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            Enemy newEnemy = Instantiate(enemyPrefab, GetRightEnemyPosition(i), Quaternion.identity).GetComponent<Enemy>();
+            newEnemy.Init(Enemy.EnemyType.skeleton);
+            newEnemy.order = i;
+            enemies.Add(newEnemy);
         }
     }
 
@@ -118,9 +143,10 @@ public class SceneManager : MonoBehaviour
     // Spawn a AOE with 10000 damage and radius of 1
     // at position 2 (covers position 1, 2, 3)
     // activated after 5 seconds
-    public void SpawnAOE ()
+    public void SpawnAOEDamage (float time, int radius, int center, int damage)
     {
-        AOEDamage dam = new AOEDamage(5, 1, 2, 10000);
+        AOEDamage dam = Instantiate(AOEPrefab, positions[center] - new Vector3(0, 1.8f, 0), Quaternion.identity).GetComponent<AOEDamage>();
+        dam.Initialize(time, radius, center, damage);
         aoe.Add(dam);
     }
 

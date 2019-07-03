@@ -957,6 +957,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1562249164427396, guid: 7d072b1a059f43c429edb5c1ef080749,
     type: 3}
+  AOEPrefab: {fileID: 7838602825887648708, guid: eb600847f54a1b14b8a960baf5117f7a,
+    type: 3}
   allies: []
   positions:
   - {x: 0, y: -2.32, z: 0}
@@ -965,6 +967,7 @@ MonoBehaviour:
   - {x: -5.4, y: -2.32, z: 0}
   - {x: -7.2, y: -2.32, z: 0}
   enemies: []
+  aoe: []
   Dealer: {fileID: 1029712386}
   Healer: {fileID: 428369206}
   DealTank: {fileID: 544736842}
