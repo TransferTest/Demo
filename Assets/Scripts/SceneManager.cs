@@ -48,6 +48,7 @@ public class SceneManager : MonoBehaviour
 		for (int i = 0; i < 4; i++)
 		{
             Enemy newEnemy = Instantiate(enemyPrefab, GetRightEnemyPosition(i), Quaternion.identity).GetComponent<Enemy>();
+            newEnemy.Init(Enemy.EnemyType.skeleton);
             newEnemy.order = i;
             enemies.Add(newEnemy);
 		}
@@ -76,9 +77,12 @@ public class SceneManager : MonoBehaviour
         return new Vector3(order * 1.44f + 2, -2.32f);
     }
 
-    public void EnemyDied(Enemy enemy)
+    public void UnitDied(Unit unit)
     {
-        SceneManager.Instance.enemies.Remove(enemy);
+        if (unit is Enemy)
+            SceneManager.Instance.enemies.Remove((Enemy)unit);
+        else if (unit is Ally)
+            SceneManager.Instance.allies.Remove((Ally)unit);
         //RearrangeEnemies();
     }
 

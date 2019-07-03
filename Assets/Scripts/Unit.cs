@@ -26,7 +26,7 @@ public class Unit : MonoBehaviour
 
     protected List<Buff> buffs;
 
-    protected float attackRemainTime;
+    protected float attackRemainTime = 0;
     protected float skillCoolDown;
     protected bool moveCalled = false;
 
@@ -34,7 +34,6 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
-        attackRemainTime = 0;
         HP = maxHP;
         buffs = new List<Buff>();
         SetAutoTarget(this);
@@ -59,6 +58,11 @@ public class Unit : MonoBehaviour
         {
             yield return StartCoroutine(state.ToString());
         }
+    }
+
+    public void SetRandomAttackRemainTime()
+    {
+        attackRemainTime = delay * UnityEngine.Random.Range(0.0f, 0.99f);
     }
 
     public void UpdateBuffRemainTime ()
@@ -141,8 +145,7 @@ public class Unit : MonoBehaviour
 
     void Die()
     {
-        if (this is Enemy)
-            SceneManager.Instance.EnemyDied((Enemy)this);
+        SceneManager.Instance.UnitDied(this);
         Destroy(gameObject);
     }
     public void SetAutoTarget (Unit unit)
@@ -178,7 +181,6 @@ public class Unit : MonoBehaviour
 
     protected virtual IEnumerator AutoAttack()
     {
-        attackRemainTime = delay;
         while (true)
         {
             if (attackRemainTime > 0)
