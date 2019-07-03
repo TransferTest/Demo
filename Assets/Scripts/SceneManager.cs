@@ -15,6 +15,7 @@ public class SceneManager : MonoBehaviour
     public List<Ally> allies = new List<Ally>();
     public Vector3[] positions = new Vector3[5];
     public List<Enemy> enemies = new List<Enemy>();
+    public List<AOE> aoe = new List<AOE>();
 
     public GameObject Dealer;
     public GameObject Healer;
@@ -62,14 +63,25 @@ public class SceneManager : MonoBehaviour
         allies.Add(dealTank);
         allies.Add(tanker);
         allies.Add(supporter);
-
-        //SwapAllyIndex(0, 2);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Update buff time
 
+        // Update AOE time
+        int i = 0;
+        while (i < aoe.Count)
+        {
+            AOE a = aoe[i];
+            if (a.CheckTime())
+            {
+                aoe.Remove(a);
+                continue;
+            }
+            i++;
+        }
     }
 
     Vector3 GetRightEnemyPosition(int order)
@@ -101,6 +113,16 @@ public class SceneManager : MonoBehaviour
             }
         }
     }*/
+
+    // Function for test
+    // Spawn a AOE with 10000 damage and radius of 1
+    // at position 2 (covers position 1, 2, 3)
+    // activated after 5 seconds
+    public void SpawnAOE ()
+    {
+        AOEDamage dam = new AOEDamage(5, 1, 2, 10000);
+        aoe.Add(dam);
+    }
 
     public void SkillButton (string className)
     {
@@ -217,8 +239,7 @@ public class SceneManager : MonoBehaviour
         t.order = index;
     }
     // Find ally with its order
-    // Not used, but leave it for the case that order and index are not matched
-    private Ally AllyAtOrder (int order)
+    public Ally AllyAtOrder (int order)
     {
         for (int i = 0; i < allies.Count; i++)
         {
